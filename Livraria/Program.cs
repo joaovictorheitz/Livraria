@@ -9,11 +9,13 @@ namespace Livraria
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public DbSet<Autor> Autor { get; set; }
+        public DbSet<Livro> Livro { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             builder.Entity<Autor>().Property(a => a.Id).ValueGeneratedOnAdd();
+            builder.Entity<Livro>().Property(a => a.Id).ValueGeneratedOnAdd();
         }
         
         public class ApplicationDbInitializer
@@ -38,7 +40,14 @@ namespace Livraria
                     Nome = "Machado de Assis"
                 };
 
+                var DomCasmurro = new Livro()
+                {
+                    Nome = "Dom Casmurro",
+                    AutorId = MachadoDeAssis.Id
+                };
+
                 context.Autor.Add(MachadoDeAssis);
+                context.Livro.Add(DomCasmurro);
 
                 context.SaveChanges();
             }
